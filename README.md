@@ -1,2 +1,2 @@
 # Twine Storage
-Hosting the かさじぞう Twine game
+Hosting the かさじぞう game
