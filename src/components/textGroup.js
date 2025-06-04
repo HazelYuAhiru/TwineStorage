@@ -84,7 +84,7 @@ export default function TextGroup({ lines, processedLines, visible, layout, onKe
         // Check if this keyword has been clicked
         if (clickedKeywords && clickedKeywords.has(part.content)) {
           return (
-            <span key={part.key} style={{ color: "#2a2a2a" }}>
+            <span key={part.key} style={{ color: "#666" }}>
               {part.content}
             </span>
           );
@@ -98,9 +98,21 @@ export default function TextGroup({ lines, processedLines, visible, layout, onKe
               onKeywordClick(part.id);
             }}
             style={{
-              color: part.color || "#007acc",
+              color: part.color || "#4ecdc4",
               cursor: "pointer",
-              userSelect: "none"
+              userSelect: "none",
+              textDecoration: "underline",
+              textDecorationStyle: "dotted",
+              textUnderlineOffset: "3px",
+              transition: "all 0.2s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.color = "#ff6b35";
+              e.target.style.textShadow = "0 1px 3px rgba(255, 107, 53, 0.3)";
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.color = part.color || "#4ecdc4";
+              e.target.style.textShadow = "none";
             }}
           >
             {part.content}
@@ -125,26 +137,67 @@ export default function TextGroup({ lines, processedLines, visible, layout, onKe
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.6 }}
       style={{
-        fontSize: "2rem",
-        lineHeight: "1.6",
-        letterSpacing: "0.2em",
+        backgroundColor: "#f9f7f2",
+        border: "3px solid #2a2a2a",
+        borderRadius: "8px",
+        padding: "2.5rem",
+        margin: "1rem 0",
+        maxWidth: "85vw",
+        boxShadow: "0 6px 0 #2a2a2a, 0 8px 20px rgba(0,0,0,0.15)",
+        position: "relative",
+        overflow: "hidden"
+      }}
+    >
+      {/* Decorative corner elements */}
+      <div style={{
+        position: "absolute",
+        top: "12px",
+        left: "12px",
+        width: "8px",
+        height: "8px",
+        backgroundColor: "#4ecdc4",
+        opacity: 0.6
+      }} />
+      <div style={{
+        position: "absolute",
+        top: "12px",
+        right: "12px",
+        width: "8px",
+        height: "8px",
+        backgroundColor: "#ff6b35",
+        opacity: 0.6
+      }} />
+      
+      <div style={{
+        fontSize: "1.4rem",
+        lineHeight: "1.8",
+        letterSpacing: "0.05em",
         fontFamily: "'Courier New', 'Liberation Mono', 'Consolas', 'Monaco', monospace",
-        fontWeight: "bold",
+        fontWeight: "600",
         color: "#2a2a2a",
-        width: "75vw", 
+        textAlign: "left",
         wordWrap: "break-word",
         overflowWrap: "break-word",
         whiteSpace: "pre-wrap",
-        textRendering: "geometricPrecision",
-        WebkitFontSmoothing: "none",
-        MozOsxFontSmoothing: "unset",
-        fontSmooth: "never",
-        filter: "contrast(1.3) brightness(1.1)",
-        textShadow: "1px 1px 0px rgba(0,0,0,0.4)",
-        transform: "translateZ(0)",
-      }}
-    >
-      {renderTextWithKeywords()}
+        textRendering: "optimizeLegibility",
+        WebkitFontSmoothing: "antialiased",
+        MozOsxFontSmoothing: "grayscale",
+        textIndent: "1.5em",
+        marginBottom: "0.5rem"
+      }}>
+        {renderTextWithKeywords()}
+      </div>
+      
+      {/* Subtle gradient overlay for depth */}
+      <div style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        height: "4px",
+        background: "linear-gradient(90deg, transparent, rgba(78, 205, 196, 0.1), transparent)",
+        pointerEvents: "none"
+      }} />
     </motion.div>
   );
 }

@@ -136,11 +136,42 @@ export default function VerticalStoryDisplay({ routeText = [], onLastKeywordClic
         minHeight: "100vh",
         width: "100%",
         background: "linear-gradient(135deg, #f8f6f0 0%, #f5f3ed 100%)",
-        padding: "2rem",
-        paddingBottom: "50vh"
+        padding: "3rem 2rem",
+        paddingBottom: "50vh",
+        position: "relative"
       }}
     >
-      <div className="story-content">
+      {/* Decorative background elements for depth */}
+      <div style={{
+        position: "absolute",
+        top: "100px",
+        left: "5%",
+        width: "12px",
+        height: "12px",
+        backgroundColor: "#4ecdc4",
+        opacity: 0.3,
+        borderRadius: "2px"
+      }} />
+      <div style={{
+        position: "absolute",
+        top: "200px",
+        right: "8%",
+        width: "10px",
+        height: "10px",
+        backgroundColor: "#ff6b35",
+        opacity: 0.3,
+        borderRadius: "2px"
+      }} />
+      
+      <div 
+        className="story-content"
+        style={{
+          maxWidth: "900px",
+          margin: "0 auto",
+          position: "relative",
+          zIndex: 1
+        }}
+      >
         {routeText.map((group, index) => {
           const isVisible = shownIds.includes(group.id);
           const processedLines = memoizedProcessedLines[group.id];
@@ -156,7 +187,8 @@ export default function VerticalStoryDisplay({ routeText = [], onLastKeywordClic
               ref={isLastShown ? lastGroupRef : null}
               className="text-group-container"
               style={{
-                marginBottom: "2rem"
+                marginBottom: "3rem",
+                animation: isVisible ? "fadeInUp 0.6s ease-out" : "none"
               }}
             >
               <TextGroup
@@ -172,6 +204,19 @@ export default function VerticalStoryDisplay({ routeText = [], onLastKeywordClic
           );
         })}
       </div>
+      
+      <style jsx>{`
+        @keyframes fadeInUp {
+          0% {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </div>
   );
 }

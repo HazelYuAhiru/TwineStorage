@@ -159,4 +159,81 @@ body {
     line-height: 2 !important;
     letter-spacing: 0.1em !important;
   }
+
+  /* Professional Text Group Enhancements */
+  .text-group-container:hover {
+    transform: translateY(-2px);
+    transition: transform 0.3s ease;
+  }
+
+  /* Improved readability for Japanese text */
+  .japanese-text-professional {
+    font-feature-settings: "kern" 1, "liga" 1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Keyword interaction improvements */
+  .keyword-interactive {
+    position: relative;
+    display: inline-block;
+  }
+
+  .keyword-interactive::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #4ecdc4, #ff6b35);
+    transition: width 0.3s ease;
+  }
+
+  .keyword-interactive:hover::after {
+    width: 100%;
+  }
+
+  /* Animation for text appearance */
+  @keyframes textFadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .text-group-animate {
+    animation: textFadeIn 0.6s ease-out;
+  }
+
+  /* Responsive improvements for text groups */
+  @media (max-width: 768px) {
+    .japanese-text-container {
+      padding: 1rem;
+    }
+    
+    .japanese-text-vertical,
+    .japanese-text-horizontal {
+      font-size: 1.2rem !important;
+      line-height: 2 !important;
+    }
+
+    .text-group-container {
+      margin-bottom: 2rem !important;
+    }
+
+    /* Move trigger to bottom on mobile */
+    .japanese-text-container .keyword-trigger {
+      position: fixed !important;
+      bottom: 2rem !important;
+      right: 2rem !important;
+      top: auto !important;
+      transform: none !important;
+    }
+  }
   
