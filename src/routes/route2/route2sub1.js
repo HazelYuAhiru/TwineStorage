@@ -10,8 +10,9 @@ export default function Route2Sub1() {
         routeText={route2_1}
         leftCharacter={null} // You can add character image path here later
         rightCharacter={null} // You can add character image path here later
-        conclusionText="やさしさは、思いがけない\n幸せを運んでくれる"
+        conclusionText="本当の幸せは、\n家族と過ごす時間にある"
         castInfo={route2CastInfo}
+        routeId="route2_1"
         onLastKeywordClick={() => {
           window.location.href = '/';
         }}

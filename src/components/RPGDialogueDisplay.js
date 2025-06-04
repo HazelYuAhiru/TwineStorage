@@ -8,7 +8,8 @@ export default function RPGDialogueDisplay({
   leftCharacter, 
   rightCharacter,
   conclusionText = "",
-  castInfo = []
+  castInfo = [],
+  routeId = null
 }) {
   const [currentGroupIndex, setCurrentGroupIndex] = useState(0);
   const [clickedKeywords, setClickedKeywords] = useState(new Set());
@@ -228,6 +229,7 @@ export default function RPGDialogueDisplay({
         onCreditsComplete={() => {
           window.location.href = '/';
         }}
+        routeId={routeId}
       />
     );
   }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { markRouteComplete } from '../utils/completionTracker';
 
-export default function RollingCredits({ castInfo = [], onCreditsComplete, conclusionText = "" }) {
+export default function RollingCredits({ castInfo = [], onCreditsComplete, conclusionText = "", routeId = null }) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -10,13 +11,22 @@ export default function RollingCredits({ castInfo = [], onCreditsComplete, concl
 
   useEffect(() => {
     // Auto-complete credits after animation duration
-    if (isVisible && onCreditsComplete) {
+    if (isVisible) {
       const totalItems = (conclusionText ? 1 : 0) + castInfo.length + (castInfo.length === 0 ? 10 : 0);
       const duration = (totalItems + 5) * 1000;
-      const timer = setTimeout(onCreditsComplete, duration);
+      const timer = setTimeout(() => {
+        // Mark route as complete when credits finish
+        if (routeId) {
+          markRouteComplete(routeId);
+        }
+        
+        if (onCreditsComplete) {
+          onCreditsComplete();
+        }
+      }, duration);
       return () => clearTimeout(timer);
     }
-  }, [isVisible, castInfo.length, onCreditsComplete, conclusionText]);
+  }, [isVisible, castInfo.length, onCreditsComplete, conclusionText, routeId]);
 
   const defaultCast = [
     { role: "原作", name: "日本の民話" },

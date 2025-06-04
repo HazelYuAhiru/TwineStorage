@@ -12,6 +12,7 @@ export default function Route1Sub2() {
         rightCharacter={null} 
         conclusionText="やさしさは、思いがけない\n幸せを運んでくれる"
         castInfo={route1CastInfo}
+        routeId="route1_2"
         onLastKeywordClick={() => {
           window.location.href = '/';
         }}

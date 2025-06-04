@@ -1,33 +1,39 @@
 export const route1 = [
     {
       id: "r1-group1",
-      trigger: { text: "オレンジのねこ", color: "#D94C4C" },
-      text: "外にいたのは、一ぴきのオレンジのねこでした。\nねこは、おじぞうさんのかさをかぶっていました。"
+      trigger: { text: "オレンジのねこ", color: "#FF8C00" },
+      text: "外にいたのは、一ぴきのオレンジのねこでした。\nねこは、おじぞうさんのかさをかぶっていました。",
+      characters: { left: false, right: false }
     },
     {
       id: "r1-group2",
-      trigger: { text: "アンバー", color: "#E4C66B" },
-      text: "「こんばんは。わたしはアンバーです。ねこの村にすんでいます。」\nアンバーは言いました。"
+      trigger: { text: "アンバー", color: "#FFBF00" },
+      text: "「こんばんは。わたしはアンバーです。ねこの村にすんでいます。」\nアンバーは言いました。",
+      characters: { left: true, right: false }
     },
     {
       id: "r1-group3",
-      trigger: { text: "ありがとう", color: "#FFB347" },
-      text: "「きのう、雪の中で道にまよいました。でも、おじさんがかさをおじぞうさんにあげたのを見ました。\nだから、ちょっとだけかりました。ごめんなさい。そして、ありがとう。」"
+      trigger: { text: "ありがとう", color: "#32CD32" },
+      text: "「きのう、雪の中で道にまよいました。でも、おじさんがかさをおじぞうさんにあげたのを見ました。\nだから、ちょっとだけかりました。ごめんなさい。そして、ありがとう。」",
+      characters: { left: true, right: false }
     },
     {
       id: "r1-group4",
-      trigger: { text: "プレゼント", color: "#A998C4" },
-      text: "アンバーはかさをかえして、こう言いました。\n「おくれたから、プレゼントはあしたもってきますね！」"
+      trigger: { text: "プレゼント", color: "#FF1493" },
+      text: "アンバーはかさをかえして、こう言いました。\n「おくれたから、プレゼントはあしたもってきますね！」",
+      characters: { left: true, right: false }
     },
     {
       id: "r1-group5",
-      trigger: { text: "きえていきました", color: "#5B7F5D" },
-      text: "そう言って、雪の中にきえていきました。"
+      trigger: { text: "きえていきました", color: "#B0C4DE" },
+      text: "そう言って、雪の中にきえていきました。",
+      characters: { left: false, right: false }
     },
     {
       id: "r1-group6",
-      trigger: { text: "つぎの朝、アンバーさんは ーー", color: "#5B7F5D" },
-      text: "つぎの朝、アンバーさんは ーー"
+      trigger: { text: "つぎの朝、アンバーさんは ーー", color: "#FFD700" },
+      text: "つぎの朝、アンバーさんは ーー",
+      characters: { left: false, right: false }
     }
   ];  
 
