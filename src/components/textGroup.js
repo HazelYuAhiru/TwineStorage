@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 export default function TextGroup({ lines, processedLines, visible, onKeywordClick, clickedKeywords }) {
   const [displayedText, setDisplayedText] = useState("");
@@ -7,7 +7,7 @@ export default function TextGroup({ lines, processedLines, visible, onKeywordCli
 
   const fullText = lines.join(" ");
 
-  const processFullText = () => {
+  const textParts = useMemo(() => {
     if (!processedLines || processedLines.length === 0) {
       return [{ type: 'text', content: fullText, key: 'full-text' }];
     }
@@ -30,10 +30,11 @@ export default function TextGroup({ lines, processedLines, visible, onKeywordCli
     });
     
     return allParts;
-  };
+  }, [processedLines, fullText]);
 
-  const textParts = processFullText();
-  const totalTextLength = textParts.reduce((sum, part) => sum + part.content.length, 0);
+  const totalTextLength = useMemo(() => {
+    return textParts.reduce((sum, part) => sum + part.content.length, 0);
+  }, [textParts]);
 
   useEffect(() => {
     if (!visible) return;

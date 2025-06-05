@@ -12,7 +12,7 @@ const DialogueGroup = ({ lines, processedLines, visible, side, speaker, onKeywor
 
   const fullText = lines.join(" ");
 
-  const processFullText = () => {
+  const textParts = useMemo(() => {
     if (!processedLines || processedLines.length === 0) {
       return [{ type: 'text', content: fullText, key: 'full-text' }];
     }
@@ -35,10 +35,11 @@ const DialogueGroup = ({ lines, processedLines, visible, side, speaker, onKeywor
     });
     
     return allParts;
-  };
+  }, [processedLines, fullText]);
 
-  const textParts = processFullText();
-  const totalTextLength = textParts.reduce((sum, part) => sum + part.content.length, 0);
+  const totalTextLength = useMemo(() => {
+    return textParts.reduce((sum, part) => sum + part.content.length, 0);
+  }, [textParts]);
 
   // Typing animation effect - only runs once per component
   useEffect(() => {
@@ -77,7 +78,7 @@ const DialogueGroup = ({ lines, processedLines, visible, side, speaker, onKeywor
     
     const timer = setTimeout(typeText, 300);
     return () => clearTimeout(timer);
-  }, [visible, hasStartedTyping, textParts, totalTextLength]); // Added missing dependencies
+  }, [visible, hasStartedTyping, totalTextLength, textParts]);
 
   const renderTextWithKeywords = () => {
     if (!isTypingComplete) {
