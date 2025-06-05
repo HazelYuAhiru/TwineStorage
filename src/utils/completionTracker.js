@@ -42,6 +42,7 @@ export const ROUTES = {
     id: 'common',
     name: 'おじいさん',
     character: '👴',
+    characterImage: `${process.env.PUBLIC_URL}/assets/characters/grandfather/default.png`,
     path: '/common',
     color: '#8B4513'
   },
@@ -49,6 +50,7 @@ export const ROUTES = {
     id: 'route1_1', 
     name: 'アンバー',
     character: '🐱',
+    characterImage: `${process.env.PUBLIC_URL}/assets/characters/amber/holding_poster.png`,
     path: '/route1/sub1',
     color: '#FF8C00'
   },
@@ -56,6 +58,7 @@ export const ROUTES = {
     id: 'route1_2',
     name: 'ねこの村',
     character: '🏘️',
+    characterImage: `${process.env.PUBLIC_URL}/assets/characters/amber/default.png`,
     path: '/route1/sub2', 
     color: '#D0BFFF'
   },
@@ -63,6 +66,7 @@ export const ROUTES = {
     id: 'route2_1',
     name: '電話',
     character: '📞',
+    characterImage: `${process.env.PUBLIC_URL}/assets/characters/jizo/holding_phone.png`,
     path: '/route2/sub1',
     color: '#B8B8FF'
   },
@@ -70,6 +74,7 @@ export const ROUTES = {
     id: 'route2_2',
     name: '魔法',
     character: '🪄',
+    characterImage: `${process.env.PUBLIC_URL}/assets/characters/jizo/holding_magic.png`,
     path: '/route2/sub2',
     color: '#D291BC'
   }

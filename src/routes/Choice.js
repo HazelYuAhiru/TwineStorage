@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getCharacter } from '../data/characters';
 
 export default function Choice() {
   const navigate = useNavigate();
@@ -10,6 +11,10 @@ export default function Choice() {
     const timer = setTimeout(() => setTitleAnimation(true), 500);
     return () => clearTimeout(timer);
   }, []);
+
+  // Get character data for choice images
+  const amberWithKasa = getCharacter('amber', 'with_kasa');
+  const jizoWithKasa = getCharacter('jizo', 'with_kasa');
 
   const getOptionStyle = (isHovered) => ({
     width: '200px',
@@ -126,10 +131,19 @@ export default function Choice() {
             onMouseLeave={() => setHoveredOption(null)}
             onClick={() => navigate('/route1')}
           >
-            <div style={placeholderStyle}>
-              画像エリア<br/>
-              (200x200px)
-            </div>
+            <img 
+              src={amberWithKasa.image} 
+              alt="Amber with kasa" 
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain',
+                imageRendering: 'pixelated',
+                imageRendering: '-moz-crisp-edges',
+                imageRendering: 'crisp-edges',
+                WebkitImageRendering: 'pixelated'
+              }}
+            />
           </div>
           <div style={optionTextStyle}>
             かさをかぶってねこ
@@ -143,10 +157,19 @@ export default function Choice() {
             onMouseLeave={() => setHoveredOption(null)}
             onClick={() => navigate('/route2')}
           >
-            <div style={placeholderStyle}>
-              画像エリア<br/>
-              (200x200px)
-            </div>
+            <img 
+              src={jizoWithKasa.image} 
+              alt="Jizo with kasa" 
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain',
+                imageRendering: 'pixelated',
+                imageRendering: '-moz-crisp-edges',
+                imageRendering: 'crisp-edges',
+                WebkitImageRendering: 'pixelated'
+              }}
+            />
           </div>
           <div style={optionTextStyle}>
             かさをかぶっておじぞう

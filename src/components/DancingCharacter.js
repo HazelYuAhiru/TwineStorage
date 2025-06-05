@@ -24,14 +24,43 @@ const DancingCharacter = ({ route, position }) => {
       {/* Character */}
       <div
         style={{
-          fontSize: '4rem',
+          width: '80px',
+          height: '80px',
           animation: 'dance 2s ease-in-out infinite',
           filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,0.3))',
           transition: 'transform 0.2s ease',
-          transform: isHovered ? 'scale(1.2)' : 'scale(1)'
+          transform: isHovered ? 'scale(1.2)' : 'scale(1)',
+          border: '3px solid #2a2a2a',
+          borderRadius: '8px',
+          overflow: 'hidden',
+          backgroundColor: '#f5f3ed'
         }}
       >
-        {route.character}
+        {route.characterImage ? (
+          <img 
+            src={route.characterImage} 
+            alt={`${route.name} character`} 
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+              imageRendering: 'pixelated',
+              imageRendering: '-moz-crisp-edges',
+              imageRendering: 'crisp-edges',
+              WebkitImageRendering: 'pixelated'
+            }}
+          />
+        ) : (
+          <div style={{
+            fontSize: '3rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '100%'
+          }}>
+            {route.character}
+          </div>
+        )}
       </div>
 
       {/* Hover dialogue bubble */}

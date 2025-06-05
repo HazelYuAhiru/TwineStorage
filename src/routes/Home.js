@@ -187,7 +187,7 @@ export default function Home() {
         maxWidth: '600px',
         lineHeight: '1.6'
       }}>
-        伝統的な日本の物語をインタラクティブに体験しよう
+        これは、いつかどこかで起こった物語です。
         {completedRoutes.length > 0 && (
           <span style={{ 
             display: 'block', 
@@ -196,7 +196,7 @@ export default function Home() {
             marginTop: '10px',
             fontWeight: 'bold'
           }}>
-            完了したルート: {completedRoutes.length}/5 🎉
+            完了したルート: {completedRoutes.length}/4
           </span>
         )}
       </p>

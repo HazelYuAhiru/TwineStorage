@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useMemo, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import TextGroup from "./textGroup";
+import { getCharacter } from '../data/characters';
 
 // DialogueGroup component for speech bubbles - defined outside to prevent re-creation
 const DialogueGroup = memo(({ lines, processedLines, visible, side, speaker, onKeywordClick, clickedKeywords, groupId }) => {
@@ -155,9 +156,42 @@ const DialogueGroup = memo(({ lines, processedLines, visible, side, speaker, onK
         fontWeight: 'bold',
         color: '#666',
         flexShrink: 0,
-        boxShadow: '0 4px 0 #2a2a2a'
+        boxShadow: '0 4px 0 #2a2a2a',
+        overflow: 'hidden'
       }}>
-        {speaker || '?'}
+        {(() => {
+          // Determine character based on speaker
+          let characterData = null;
+          if (speaker) {
+            if (speaker.includes('アンバー')) {
+              characterData = getCharacter('amber', 'default');
+            } else if (speaker.includes('おじいさん')) {
+              characterData = getCharacter('grandfather', 'default');
+            } else if (speaker.includes('おばあさん')) {
+              characterData = getCharacter('grandmother', 'default');
+            } else if (speaker.includes('おじぞう')) {
+              characterData = getCharacter('jizo', 'default');
+            }
+          }
+          
+          return characterData?.image ? (
+            <img 
+              src={characterData.image} 
+              alt={`${speaker || 'character'}`} 
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                imageRendering: 'pixelated',
+                imageRendering: '-moz-crisp-edges',
+                imageRendering: 'crisp-edges',
+                WebkitImageRendering: 'pixelated'
+              }}
+            />
+          ) : (
+            <span>{speaker || '?'}</span>
+          );
+        })()}
       </div>
 
       {/* Speech bubble */}

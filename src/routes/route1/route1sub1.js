@@ -1,20 +1,23 @@
 import React from 'react';
-import { route1_1, route1CastInfo } from '../../data/route1';
+import { useNavigate } from 'react-router-dom';
+import { route1_1, route1sub1CastInfo } from '../../data/route1';
 import RPGDialogueDisplay from '../../components/RPGDialogueDisplay';
 
 
 export default function Route1Sub1() {
+  const navigate = useNavigate();
+
   return (
     <div>
       <RPGDialogueDisplay 
         routeText={route1_1}
         leftCharacter={null} 
         rightCharacter={null}
-        conclusionText="やさしさは、思いがけない\n幸せを運んでくれる"
-        castInfo={route1CastInfo}
+        conclusionText="おじいさんとおばあさんは、しあわせなお正月をすごしました。"
+        castInfo={route1sub1CastInfo}
         routeId="route1_1"
         onLastKeywordClick={() => {
-          window.location.href = '/';
+          navigate('/');
         }}
       />
     </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getCharacter } from '../../data/characters';
 
 export default function Choice2() {
   const navigate = useNavigate();
@@ -10,6 +11,10 @@ export default function Choice2() {
     const timer = setTimeout(() => setTitleAnimation(true), 500);
     return () => clearTimeout(timer);
   }, []);
+
+  // Get character data for choice images
+  const jizoWithPhone = getCharacter('jizo', 'holding_phone');
+  const jizoWithMagic = getCharacter('jizo', 'holding_magic');
 
   const getOptionStyle = (isHovered) => ({
     width: '200px',
@@ -130,10 +135,19 @@ export default function Choice2() {
             onMouseLeave={() => setHoveredOption(null)}
             onClick={() => navigate('/route2/sub1')}
           >
-            <div style={placeholderStyle}>
-              画像エリア<br/>
-              (200x200px)
-            </div>
+            <img 
+              src={jizoWithPhone.image} 
+              alt="Jizo holding phone" 
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain',
+                imageRendering: 'pixelated',
+                imageRendering: '-moz-crisp-edges',
+                imageRendering: 'crisp-edges',
+                WebkitImageRendering: 'pixelated'
+              }}
+            />
           </div>
           <div style={optionTextStyle}>
             黒い電話を持っていました
@@ -148,10 +162,19 @@ export default function Choice2() {
             onMouseLeave={() => setHoveredOption(null)}
             onClick={() => navigate('/route2/sub2')}
           >
-            <div style={placeholderStyle}>
-              画像エリア<br/>
-              (200x200px)
-            </div>
+            <img 
+              src={jizoWithMagic.image} 
+              alt="Jizo holding magic wand" 
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain',
+                imageRendering: 'pixelated',
+                imageRendering: '-moz-crisp-edges',
+                imageRendering: 'crisp-edges',
+                WebkitImageRendering: 'pixelated'
+              }}
+            />
           </div>
           <div style={optionTextStyle}>
             小さな魔法のぼうをおいていきました
