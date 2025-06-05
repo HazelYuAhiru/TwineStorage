@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef, useMemo, memo } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import TextGroup from "./textGroup";
 import { getCharacter } from '../data/characters';
 
 // DialogueGroup component for speech bubbles - defined outside to prevent re-creation
-const DialogueGroup = memo(({ lines, processedLines, visible, side, speaker, onKeywordClick, clickedKeywords, groupId }) => {
+const DialogueGroup = ({ lines, processedLines, visible, side, speaker, onKeywordClick, clickedKeywords }) => {
   const [displayedText, setDisplayedText] = useState("");
   const [isTypingComplete, setIsTypingComplete] = useState(false);
   const [hasStartedTyping, setHasStartedTyping] = useState(false);
@@ -77,7 +77,7 @@ const DialogueGroup = memo(({ lines, processedLines, visible, side, speaker, onK
     
     const timer = setTimeout(typeText, 300);
     return () => clearTimeout(timer);
-  }, [visible]); // Only depend on visible to allow the effect to run once when visible becomes true
+  }, [visible, hasStartedTyping, textParts, totalTextLength]); // Added missing dependencies
 
   const renderTextWithKeywords = () => {
     if (!isTypingComplete) {
@@ -183,8 +183,7 @@ const DialogueGroup = memo(({ lines, processedLines, visible, side, speaker, onK
                 height: '100%',
                 objectFit: 'cover',
                 imageRendering: 'pixelated',
-                imageRendering: '-moz-crisp-edges',
-                imageRendering: 'crisp-edges',
+                MozImageRendering: '-moz-crisp-edges',
                 WebkitImageRendering: 'pixelated'
               }}
             />
@@ -243,30 +242,25 @@ const DialogueGroup = memo(({ lines, processedLines, visible, side, speaker, onK
       </div>
     </div>
   );
-});
+};
 
 export default function VerticalStoryDisplay({ routeText = [], onLastKeywordClick }) {
   const [shownIds, setShownIds] = useState(routeText.length > 0 ? [routeText[0].id] : []);
   const [clickedKeywords, setClickedKeywords] = useState(new Set());
-  const [dialogueCounter, setDialogueCounter] = useState(0); // Track dialogue for alternating sides
   const containerRef = useRef(null);
   const lastGroupRef = useRef(null);
   const navigate = useNavigate();
 
-  // Function to detect if text contains dialogue
   const isDialogue = (text) => {
     return text.includes('「') && text.includes('」');
   };
 
-  // Function to extract speaker name if present
   const extractSpeaker = (text) => {
-    // Look for patterns like "アンバーは言いました" or "おじいさんは言いました"
     const speakerPatterns = [
       /([あ-ん]+|[ア-ン]+|おじいさん|おばあさん)は?言いました/,
       /([あ-ん]+|[ア-ン]+|おじいさん|おばあさん)が言いました/,
       /([あ-ん]+|[ア-ン]+|おじいさん|おばあさん)は?[：:]/,
-      // Direct speech without said pattern
-      /^「.*」$/ // If it's just direct quotes, return generic speaker
+      /^「.*」$/
     ];
     
     for (const pattern of speakerPatterns) {
@@ -276,14 +270,11 @@ export default function VerticalStoryDisplay({ routeText = [], onLastKeywordClic
       }
     }
     
-    // If it contains quotes but no clear speaker, determine from context
     if (text.includes('「') && text.includes('」')) {
-      // Look for character names mentioned in the text
       if (text.includes('アンバー')) return 'アンバー';
       if (text.includes('おじいさん')) return 'おじいさん';
       if (text.includes('おばあさん')) return 'おばあさん';
       
-      // Default to generic speaker
       return '?';
     }
     
@@ -729,7 +720,6 @@ export default function VerticalStoryDisplay({ routeText = [], onLastKeywordClic
                   speaker={speaker}
                   onKeywordClick={handleKeywordClick}
                   clickedKeywords={clickedKeywords}
-                  groupId={group.id}
                 />
               ) : (
                 <TextGroup

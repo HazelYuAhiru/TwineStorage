@@ -74,13 +74,6 @@ export default function Choice2() {
     transition: 'all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
   };
 
-  const placeholderStyle = {
-    fontSize: '1rem',
-    color: '#666',
-    textAlign: 'center',
-    fontFamily: "'Courier New', monospace"
-  };
-
   return (
     <div style={{
       minHeight: '100vh',
@@ -143,8 +136,7 @@ export default function Choice2() {
                 height: '100%',
                 objectFit: 'contain',
                 imageRendering: 'pixelated',
-                imageRendering: '-moz-crisp-edges',
-                imageRendering: 'crisp-edges',
+                MozImageRendering: '-moz-crisp-edges',
                 WebkitImageRendering: 'pixelated'
               }}
             />
@@ -170,8 +162,7 @@ export default function Choice2() {
                 height: '100%',
                 objectFit: 'contain',
                 imageRendering: 'pixelated',
-                imageRendering: '-moz-crisp-edges',
-                imageRendering: 'crisp-edges',
+                MozImageRendering: '-moz-crisp-edges',
                 WebkitImageRendering: 'pixelated'
               }}
             />

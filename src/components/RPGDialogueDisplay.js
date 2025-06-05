@@ -56,16 +56,6 @@ export default function RPGDialogueDisplay({
           currentGroup.characters.rightVariant || 'default'
         ) : null;
       
-      // Debug logging for amber
-      if (rightChar?.id === 'amber') {
-        console.log('🐱 Amber character debug:', {
-          groupId: currentGroup.id,
-          variant: currentGroup.characters.rightVariant,
-          imagePath: rightChar.image,
-          character: rightChar
-        });
-      }
-      
       return {
         left: leftChar,
         right: rightChar
@@ -315,18 +305,6 @@ export default function RPGDialogueDisplay({
     // In conversation mode, use visibility to gray out. In monologue mode, always show at full opacity
     const displayOpacity = isConversation ? (isVisible ? 1 : 0.3) : 1;
     
-    // Debug logging for amber
-    if (character?.id === 'amber') {
-      console.log(`🎭 Rendering ${side} amber:`, {
-        character: character,
-        imagePath: character?.image,
-        isVisible: isVisible,
-        isConversation: isConversation,
-        displayOpacity: displayOpacity,
-        groupId: currentGroup?.id
-      });
-    }
-    
     return (
       <div style={{
         width: '200px',
@@ -350,10 +328,8 @@ export default function RPGDialogueDisplay({
               height: '100%', 
               objectFit: objectFit, // Use configured scaling
               // Pixel art scaling properties (always applied for crisp scaling)
-              imageRendering: 'pixelated', // Modern browsers
-              imageRendering: '-moz-crisp-edges', // Firefox
-              imageRendering: 'crisp-edges', // Fallback
-              WebkitImageRendering: 'pixelated', // Safari
+              imageRendering: 'pixelated', // Modern browsers and Safari
+              MozImageRendering: '-moz-crisp-edges', // Firefox
               msInterpolationMode: 'nearest-neighbor', // IE
               // Additional sharpening for pixel art
               filter: isPixelArt ? 'none' : 'unset',
@@ -363,8 +339,6 @@ export default function RPGDialogueDisplay({
               backfaceVisibility: 'hidden',
               WebkitBackfaceVisibility: 'hidden'
             }}
-            onLoad={() => character?.id === 'amber' && console.log('✅ Amber image loaded successfully:', character?.image)}
-            onError={() => character?.id === 'amber' && console.log('❌ Amber image failed to load:', character?.image)}
           />
         ) : (
           <div style={{

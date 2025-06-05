@@ -1,6 +1,5 @@
 # Twine Storage
-Hosting the かさじぞう game, not a Twine game anymore :/
+Hosting the かさじぞう game.
 
 ## TODO List
 - double check script
-- fix ending credit list issue

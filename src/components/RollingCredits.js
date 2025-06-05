@@ -5,16 +5,29 @@ export default function RollingCredits({ castInfo = [], onCreditsComplete, concl
   const [startCredits, setStartCredits] = useState(false);
   const [showConclusion, setShowConclusion] = useState(!!conclusionText);
 
+  const buildCredits = () => {
+    const credits = [];
+    
+    credits.push({ role: "", name: "", isEmpty: true });
+    credits.push(...castInfo);
+    
+    if (castInfo.length === 0) {
+      credits.push({ role: "", name: "ありがとうございました" });
+    }
+    
+    return credits;
+  };
+
+  const credits = buildCredits();
+
   useEffect(() => {
     if (conclusionText) {
-      // Show conclusion text for 3 seconds, then start credits
       const timer = setTimeout(() => {
         setShowConclusion(false);
         setTimeout(() => setStartCredits(true), 500);
       }, 3000);
       return () => clearTimeout(timer);
     } else {
-      // No conclusion text, start credits immediately
       const timer = setTimeout(() => setStartCredits(true), 800);
       return () => clearTimeout(timer);
     }
@@ -22,10 +35,7 @@ export default function RollingCredits({ castInfo = [], onCreditsComplete, concl
 
   useEffect(() => {
     if (startCredits) {
-      const conclusionItems = conclusionText ? 1 : 0;
-      const castItems = castInfo.length > 0 ? castInfo.length : 1; // At least 1 for "ありがとうございました"
-      const totalItems = conclusionItems + castItems;
-      const duration = credits.length * 3500; // Match the new animation timing
+      const duration = credits.length * 3050;
       
       const timer = setTimeout(() => {
         if (routeId) {
@@ -38,27 +48,7 @@ export default function RollingCredits({ castInfo = [], onCreditsComplete, concl
       }, duration);
       return () => clearTimeout(timer);
     }
-  }, [startCredits, castInfo.length, onCreditsComplete, conclusionText, routeId]);
-
-  const buildCredits = () => {
-    const credits = [];
-    
-    credits.push({ role: "", name: "", isEmpty: true });
-    
-    // Don't add conclusion text to rolling credits - it's shown separately
-    
-    const castToUse = castInfo;
-    credits.push(...castToUse);
-    
-    // Add default ending if no cast info provided
-    if (castInfo.length === 0) {
-      credits.push({ role: "", name: "ありがとうございました" });
-    }
-    
-    return credits;
-  };
-
-  const credits = buildCredits();
+  }, [startCredits, credits.length, onCreditsComplete, conclusionText, routeId]);
 
   return (
     <div style={{
@@ -114,7 +104,6 @@ export default function RollingCredits({ castInfo = [], onCreditsComplete, concl
         justifyContent: 'center',
         position: 'relative'
       }}>
-        {/* Centered conclusion text - shows first */}
         {conclusionText && showConclusion && (
           <div style={{
             position: 'absolute',
@@ -149,7 +138,6 @@ export default function RollingCredits({ castInfo = [], onCreditsComplete, concl
           </div>
         )}
 
-        {/* Rolling credits - shows after conclusion text */}
         <div style={{
           position: 'absolute',
           bottom: 0,

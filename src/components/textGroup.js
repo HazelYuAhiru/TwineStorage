@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 
-export default function TextGroup({ lines, processedLines, visible, layout, onKeywordClick, clickedKeywords, shownIds }) {
+export default function TextGroup({ lines, processedLines, visible, onKeywordClick, clickedKeywords }) {
   const [displayedText, setDisplayedText] = useState("");
   const [isTypingComplete, setIsTypingComplete] = useState(false);
 
@@ -20,7 +20,6 @@ export default function TextGroup({ lines, processedLines, visible, layout, onKe
           key: `${part.key}-${lineIndex}-${partIndex}`
         });
       });
-      // Add space between original lines (except for the last line)
       if (lineIndex < processedLines.length - 1) {
         allParts.push({
           type: 'text',
@@ -36,7 +35,6 @@ export default function TextGroup({ lines, processedLines, visible, layout, onKe
   const textParts = processFullText();
   const totalTextLength = textParts.reduce((sum, part) => sum + part.content.length, 0);
 
-  // Typing animation effect
   useEffect(() => {
     if (!visible) return;
     
@@ -72,7 +70,7 @@ export default function TextGroup({ lines, processedLines, visible, layout, onKe
     
     const timer = setTimeout(typeText, 300);
     return () => clearTimeout(timer);
-  }, [visible, totalTextLength]);
+  }, [visible, totalTextLength, textParts]);
 
   const renderTextWithKeywords = () => {
     if (!isTypingComplete) {
@@ -81,7 +79,6 @@ export default function TextGroup({ lines, processedLines, visible, layout, onKe
     
     return textParts.map((part, index) => {
       if (part.type === 'keyword') {
-        // Check if this keyword has been clicked
         if (clickedKeywords && clickedKeywords.has(part.content)) {
           return (
             <span key={part.key} style={{ color: "#666" }}>
@@ -148,7 +145,6 @@ export default function TextGroup({ lines, processedLines, visible, layout, onKe
         overflow: "hidden"
       }}
     >
-      {/* Decorative corner elements */}
       <div style={{
         position: "absolute",
         top: "12px",
@@ -188,7 +184,6 @@ export default function TextGroup({ lines, processedLines, visible, layout, onKe
         {renderTextWithKeywords()}
       </div>
       
-      {/* Subtle gradient overlay for depth */}
       <div style={{
         position: "absolute",
         top: 0,
