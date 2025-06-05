@@ -70,7 +70,7 @@ export const route2 = [
     {
       id: "r2s2-group1",
       trigger: { text: "魔法のぼう", color: "#D291BC" },
-      text: "おじぞうさんの一人が、小さな魔法のぼうをおいていきました。\n「これは、まほう少女にもらったものです。ひとつだけねがいがかないます。」",
+      text: "おじぞうさんの一人が、小さな魔法のぼうを持っていました。\n「これは、まほう少女にもらったものです。ひとつだけねがいがかないます。」",
       characters: createCharacterConfig(null, 'jizo', false, true, 'default', 'holding_magic')
     },
     {
@@ -105,7 +105,7 @@ export const route2 = [
     },
     {
       id: "r2s2-group5",
-      trigger: { text: "さくらの木", color: "#F7C5CC" },
+      trigger: { text: "たのしい夜", color: "#F7C5CC" },
       text: "まつりのよる、ふたりはその道をとおって町に行き、たのしい夜をすごしました。\n帰るとき、おじいさんはぼうをおじぞうさんのそばにうめました。",
       characters: createCharacterConfigWithVariants(
         createCharacterVariant('grandfather', 'happy'),

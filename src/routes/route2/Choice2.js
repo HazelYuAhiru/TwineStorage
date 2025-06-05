@@ -168,7 +168,7 @@ export default function Choice2() {
             />
           </div>
           <div style={optionTextStyle}>
-            小さな魔法のぼうをおいていきました
+            小さな魔法のぼうを持っていました
           </div>
         </div>
       </div>

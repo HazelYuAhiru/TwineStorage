@@ -70,7 +70,7 @@ export const route1 = [
     {
       id: "r1s1-group4",
       trigger: { text: "三ばいのお金", color: "#FFDF70" },
-      text: "その夜、お正月のまつりで、かさはすぐに売り切れました！人々は三ばいのお金を出してでも買いたがりました。",
+      text: "その夜、お正月のまつりで、かさはすぐに売り切れました！人々は三ばいのお金をだしてでも買いたがりました。",
       characters: createCharacterConfig('grandfather', 'grandmother', true, false, 'happy', 'happy')
     },
     {
