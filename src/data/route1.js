@@ -113,7 +113,7 @@ export const route1 = [
     },
     {
       id: "r1s2-group5",
-      trigger: { text: "手をつなぎ", color: "#77DD77" },
+      trigger: { text: "たくさん売れました", color: "#77DD77" },
       text: "ねこたちは小さい体で、いいざいりょうをあつめて、おじいさんとおばあさんがそのざいりょうで、すてきなかさを作りました。\nかさはとてもにんきで、たくさん売れました。",
       characters: createCharacterConfig('grandfather', 'amber', true, true, 'happy', 'happy')
     }

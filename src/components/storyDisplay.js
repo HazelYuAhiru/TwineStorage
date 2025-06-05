@@ -7,7 +7,7 @@ import { getCharacter } from '../data/characters';
 const DialogueGroup = ({ lines, processedLines, visible, side, speaker, onKeywordClick, clickedKeywords }) => {
   const [displayedText, setDisplayedText] = useState("");
   const [isTypingComplete, setIsTypingComplete] = useState(false);
-  const [hasStartedTyping, setHasStartedTyping] = useState(false);
+  const typingRef = useRef(null);
   const isLeft = side === 'left';
 
   const fullText = lines.join(" ");
@@ -41,11 +41,11 @@ const DialogueGroup = ({ lines, processedLines, visible, side, speaker, onKeywor
     return textParts.reduce((sum, part) => sum + part.content.length, 0);
   }, [textParts]);
 
-  // Typing animation effect - only runs once per component
+  // Typing animation effect - starts once when visible becomes true
   useEffect(() => {
-    if (!visible || hasStartedTyping) return;
+    if (!visible || typingRef.current) return;
     
-    setHasStartedTyping(true);
+    typingRef.current = true;
     setDisplayedText("");
     setIsTypingComplete(false);
     
@@ -78,7 +78,7 @@ const DialogueGroup = ({ lines, processedLines, visible, side, speaker, onKeywor
     
     const timer = setTimeout(typeText, 300);
     return () => clearTimeout(timer);
-  }, [visible, hasStartedTyping, totalTextLength, textParts]);
+  }, [visible, totalTextLength, textParts]);
 
   const renderTextWithKeywords = () => {
     if (!isTypingComplete) {
@@ -203,28 +203,26 @@ const DialogueGroup = ({ lines, processedLines, visible, side, speaker, onKeywor
         maxWidth: '70%',
         position: 'relative',
         boxShadow: '0 6px 0 #2a2a2a, 0 8px 20px rgba(0,0,0,0.15)',
-        animation: (!hasStartedTyping && visible) ? "speechBubbleIn 0.6s ease-out" : "none"
+        animation: (!typingRef.current && visible) ? "speechBubbleIn 0.6s ease-out" : "none"
       }}>
         {/* Speech bubble tail */}
         <div style={{
           position: 'absolute',
           top: '20px',
-          [isLeft ? 'left' : 'right']: '-12px',
           width: '0',
           height: '0',
           borderTop: '15px solid transparent',
           borderBottom: '15px solid transparent',
-          [isLeft ? 'borderRight' : 'borderLeft']: '15px solid #2a2a2a'
+          ...(isLeft ? { left: '-12px', borderRight: '15px solid #2a2a2a' } : { right: '-12px', borderLeft: '15px solid #2a2a2a' })
         }} />
         <div style={{
           position: 'absolute',
           top: '22px',
-          [isLeft ? 'left' : 'right']: '-6px',
           width: '0',
           height: '0',
           borderTop: '12px solid transparent',
           borderBottom: '12px solid transparent',
-          [isLeft ? 'borderRight' : 'borderLeft']: `12px solid ${isLeft ? '#f0f8ff' : '#fff5ee'}`
+          ...(isLeft ? { left: '-6px', borderRight: `12px solid #f0f8ff` } : { right: '-6px', borderLeft: `12px solid #fff5ee` })
         }} />
 
         <div style={{
@@ -257,11 +255,11 @@ export default function VerticalStoryDisplay({ routeText = [], onLastKeywordClic
   };
 
   const extractSpeaker = (text) => {
+    // First, check for explicit speaker patterns with "said" verbs
     const speakerPatterns = [
-      /([あ-ん]+|[ア-ン]+|おじいさん|おばあさん)は?言いました/,
-      /([あ-ん]+|[ア-ン]+|おじいさん|おばあさん)が言いました/,
-      /([あ-ん]+|[ア-ン]+|おじいさん|おばあさん)は?[：:]/,
-      /^「.*」$/
+      /([あ-ん]+|[ア-ン]+|おじいさん|おばあさん|おじぞう)は?言いました/,
+      /([あ-ん]+|[ア-ン]+|おじいさん|おばあさん|おじぞう)が言いました/,
+      /([あ-ん]+|[ア-ン]+|おじいさん|おばあさん|おじぞう)は?[：:]/
     ];
     
     for (const pattern of speakerPatterns) {
@@ -271,10 +269,29 @@ export default function VerticalStoryDisplay({ routeText = [], onLastKeywordClic
       }
     }
     
+    // For dialogue with quotes, look for speaker context clues
     if (text.includes('「') && text.includes('」')) {
-      if (text.includes('アンバー')) return 'アンバー';
-      if (text.includes('おじいさん')) return 'おじいさん';
+      // Check for unknown/external speakers
+      if (text.includes('外から声が') || text.includes('声が聞こえ') || text.includes('だれかが')) return '?';
+      
+      // Check for action descriptions that indicate who is speaking
+      if (text.includes('おばあさんは') || text.includes('おばあさんが')) return 'おばあさん';
+      if (text.includes('おじいさんは') || text.includes('おじいさんが')) return 'おじいさん';
+      if (text.includes('おじぞうは') || text.includes('おじぞうが') || text.includes('おじぞうさん')) return 'おじぞう';
+      if (text.includes('アンバーは') || text.includes('アンバーが') || text.includes('アンバー')) return 'アンバー';
+      
+      // Check if someone is being called (but not necessarily the speaker)
+      // If dialogue contains calling someone but no clear speaker context, assume unknown
+      if (text.includes('「おじいさん、おじいさん') || text.includes('「おばあさん、おばあさん')) {
+        // Only return the called person as speaker if there's clear context they're responding
+        if (!text.includes('は') && !text.includes('が')) return '?';
+      }
+      
+      // If no clear speaker context, fall back to character presence
       if (text.includes('おばあさん')) return 'おばあさん';
+      if (text.includes('おじいさん')) return 'おじいさん';
+      if (text.includes('おじぞう')) return 'おじぞう';
+      if (text.includes('アンバー')) return 'アンバー';
       
       return '?';
     }

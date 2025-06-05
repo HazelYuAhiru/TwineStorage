@@ -45,8 +45,7 @@ const DancingCharacter = ({ route, position }) => {
               height: '100%',
               objectFit: 'contain',
               imageRendering: 'pixelated',
-              imageRendering: '-moz-crisp-edges',
-              imageRendering: 'crisp-edges',
+              MozImageRendering: '-moz-crisp-edges',
               WebkitImageRendering: 'pixelated'
             }}
           />
