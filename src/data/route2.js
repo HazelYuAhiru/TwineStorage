@@ -55,7 +55,7 @@ export const route2 = [
     },
     {
       id: "r2s1-group5",
-      trigger: { text: "ほんとうのしあわせ", color: "#A0CED9" },
+      trigger: { text: "しあわせな", color: "#A0CED9" },
       text: "おじいさんとおばあさんは、にっこりわらいました。そして、あたたかいごちそうを作り、家族といっしょにしあわせなお正月をすごしました。",
       characters: createCharacterConfigWithVariants(
         createCharacterVariant('grandfather', 'happy'),
@@ -121,7 +121,7 @@ export const route2 = [
     { role: "キャラクター", name: "おじぞうさん" },
     { role: "演出・グラフィック・プログラミング", name: "Yihong Yu" },
     { role: "スペシャルサンクス", name: "『げんき』教科書"},
-    { role: "", name: "「大団円」" }
+    { role: "", name: "Route 2-1: 「大団円」" }
   ];
 
   export const route2sub2CastInfo = [
@@ -130,5 +130,5 @@ export const route2 = [
     { role: "キャラクター", name: "おじぞうさん" },
     { role: "演出・グラフィック・プログラミング", name: "Yihong Yu" },
     { role: "スペシャルサンクス", name: "『げんき』教科書"},
-    { role: "", name: "「お正月の奇跡」" }
+    { role: "", name: "Route 2-2: 「お正月の奇跡」" }
   ];

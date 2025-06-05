@@ -38,17 +38,9 @@ export const clearCompletionData = () => {
 
 // Route definitions with their character info
 export const ROUTES = {
-  common: {
-    id: 'common',
-    name: 'おじいさん',
-    character: '👴',
-    characterImage: `${process.env.PUBLIC_URL}/assets/characters/grandfather/default.png`,
-    path: '/common',
-    color: '#8B4513'
-  },
   route1_1: {
     id: 'route1_1', 
-    name: 'アンバー',
+    name: 'Route 1-1: アンバー',
     character: '🐱',
     characterImage: `${process.env.PUBLIC_URL}/assets/characters/amber/holding_poster.png`,
     path: '/route1/sub1',
@@ -56,25 +48,25 @@ export const ROUTES = {
   },
   route1_2: {
     id: 'route1_2',
-    name: 'ねこの村',
+    name: 'Route 1-2: おじいさん',
     character: '🏘️',
-    characterImage: `${process.env.PUBLIC_URL}/assets/characters/amber/default.png`,
+    characterImage: `${process.env.PUBLIC_URL}/assets/characters/grandfather/default.png`,
     path: '/route1/sub2', 
     color: '#D0BFFF'
   },
   route2_1: {
     id: 'route2_1',
-    name: '電話',
+    name: 'Route 2-1: おじぞうさん',
     character: '📞',
-    characterImage: `${process.env.PUBLIC_URL}/assets/characters/jizo/holding_phone.png`,
+    characterImage: `${process.env.PUBLIC_URL}/assets/characters/jizo/default.png`,
     path: '/route2/sub1',
     color: '#B8B8FF'
   },
   route2_2: {
     id: 'route2_2',
-    name: '魔法',
-    character: '🪄',
-    characterImage: `${process.env.PUBLIC_URL}/assets/characters/jizo/holding_magic.png`,
+    name: 'Route 2-2: おばあさん',
+    character: '👵',
+    characterImage: `${process.env.PUBLIC_URL}/assets/characters/grandmother/default.png`,
     path: '/route2/sub2',
     color: '#D291BC'
   }

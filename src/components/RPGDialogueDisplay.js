@@ -16,7 +16,7 @@ export default function RPGDialogueDisplay({
   const [clickedKeywords, setClickedKeywords] = useState(new Set());
   const [displayedText, setDisplayedText] = useState("");
   const [isTypingComplete, setIsTypingComplete] = useState(false);
-  const [endingPhase, setEndingPhase] = useState(null); // null, 'fadeOut', 'conclusion', 'credits'
+  const [endingPhase, setEndingPhase] = useState(null); // null, 'fadeOut', 'credits'
   const navigate = useNavigate();
 
   const currentGroup = routeText[currentGroupIndex] || null;

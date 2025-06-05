@@ -125,7 +125,7 @@ export const route1 = [
     { role: "キャラクター", name: "アンバー" },
     { role: "演出・グラフィック・プログラミング", name: "Yihong Yu" },
     { role: "スペシャルサンクス", name: "『げんき』教科書、Marco先生とアンバーさん"},
-    { role: "", name: "「時代の恵」" }
+    { role: "", name: "Route 1-1: 「時代の恵」" }
   ];
 
   export const route1sub2CastInfo = [
@@ -135,5 +135,5 @@ export const route1 = [
     { role: "キャラクター", name: "ねこたち" },
     { role: "演出・グラフィック・プログラミング", name: "Yihong Yu" },
     { role: "スペシャルサンクス", name: "『げんき』教科書、Marco先生とアンバーさん"},
-    { role: "", name: "「みんなの力」" }
+    { role: "", name: "Route 1-2: 「みんなの力」" }
   ];

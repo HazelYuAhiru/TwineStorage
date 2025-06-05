@@ -2,16 +2,26 @@ import React, { useState, useEffect } from 'react';
 import { markRouteComplete } from '../utils/completionTracker';
 
 export default function RollingCredits({ castInfo = [], onCreditsComplete, conclusionText = "", routeId = null }) {
-  const [isVisible, setIsVisible] = useState(false);
+  const [showConclusion, setShowConclusion] = useState(false);
+  const [startCredits, setStartCredits] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsVisible(true), 1000);
-    return () => clearTimeout(timer);
+    // First show the conclusion text centered
+    const timer1 = setTimeout(() => setShowConclusion(true), 300);
+    return () => clearTimeout(timer1);
   }, []);
 
   useEffect(() => {
+    // Then start the credits scrolling
+    if (showConclusion) {
+      const timer = setTimeout(() => setStartCredits(true), 2500);
+      return () => clearTimeout(timer);
+    }
+  }, [showConclusion]);
+
+  useEffect(() => {
     // Auto-complete credits after animation duration
-    if (isVisible) {
+    if (startCredits) {
       const totalItems = (conclusionText ? 1 : 0) + castInfo.length + (castInfo.length === 0 ? 10 : 0);
       const duration = (totalItems + 5) * 1000;
       const timer = setTimeout(() => {
@@ -26,7 +36,7 @@ export default function RollingCredits({ castInfo = [], onCreditsComplete, concl
       }, duration);
       return () => clearTimeout(timer);
     }
-  }, [isVisible, castInfo.length, onCreditsComplete, conclusionText, routeId]);
+  }, [startCredits, castInfo.length, onCreditsComplete, conclusionText, routeId]);
 
   const defaultCast = [
     { role: "原作", name: "日本の民話" },
@@ -120,66 +130,113 @@ export default function RollingCredits({ castInfo = [], onCreditsComplete, concl
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'flex-end',
+        justifyContent: 'center',
         position: 'relative'
       }}>
+        {/* Perfectly centered conclusion text */}
+        {conclusionText && showConclusion && !startCredits && (
+          <div style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            backgroundColor: 'rgba(245, 243, 237, 0.98)',
+            border: '6px solid #2a2a2a',
+            borderRadius: '12px',
+            padding: '60px 80px',
+            boxShadow: '0 8px 0 #2a2a2a, 0 12px 25px rgba(0,0,0,0.3)',
+            maxWidth: '80vw',
+            textAlign: 'center',
+            opacity: 1,
+            transition: 'opacity 0.8s ease-in-out',
+            zIndex: 100
+          }}>
+            <div style={{
+              fontSize: '2.4rem',
+              lineHeight: '1.6',
+              letterSpacing: '0.1em',
+              fontFamily: "'Courier New', 'Liberation Mono', 'Consolas', 'Monaco', monospace",
+              fontWeight: 'bold',
+              color: '#2a2a2a',
+              textRendering: 'geometricPrecision',
+              WebkitFontSmoothing: 'none',
+              MozOsxFontSmoothing: 'unset',
+              whiteSpace: 'pre-line'
+            }}>
+              {conclusionText}
+            </div>
+          </div>
+        )}
+
+        {/* Scrolling credits container - always present but positioned */}
         <div style={{
-          transform: isVisible ? 'translateY(-150vh)' : 'translateY(150vh)',
-          transition: `transform ${(credits.length + 5) * 2.5}s linear`,
+          position: 'absolute',
+          bottom: 0,
+          width: '100%',
+          height: '100%',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: '4rem',
-          paddingBottom: '150vh',
-          paddingTop: '120vh'
+          justifyContent: 'flex-end'
         }}>
-          {credits.map((credit, index) => {
-            // Handle empty spacing items
-            if (credit.isEmpty) {
-              return <div key={index} style={{ height: '4rem' }} />;
-            }
-            
-            return (
-              <div 
-                key={index}
-                style={{
-                  textAlign: 'center',
-                  marginBottom: credit.role === '' && !credit.isConclusion ? '4rem' : '2rem'
-                }}
-              >
-                {credit.role && !credit.isConclusion && (
+          <div style={{
+            transform: startCredits ? 'translateY(-150vh)' : 'translateY(150vh)',
+            transition: startCredits ? `transform ${(credits.length + 5) * 2.5}s linear` : 'none',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '4rem',
+            paddingBottom: '150vh',
+            paddingTop: '120vh'
+          }}>
+            {credits.map((credit, index) => {
+              // Handle empty spacing items
+              if (credit.isEmpty) {
+                return <div key={index} style={{ height: '4rem' }} />;
+              }
+              
+              return (
+                <div 
+                  key={index}
+                  style={{
+                    textAlign: 'center',
+                    marginBottom: credit.role === '' && !credit.isConclusion ? '4rem' : '2rem'
+                  }}
+                >
+                  {credit.role && !credit.isConclusion && (
+                    <div style={{
+                      fontSize: '1.2rem',
+                      fontFamily: "'Courier New', 'Liberation Mono', 'Consolas', 'Monaco', monospace",
+                      fontWeight: 'bold',
+                      color: '#666',
+                      marginBottom: '0.5rem',
+                      letterSpacing: '0.1em',
+                      textRendering: 'geometricPrecision',
+                      WebkitFontSmoothing: 'none',
+                      MozOsxFontSmoothing: 'unset'
+                    }}>
+                      {credit.role}
+                    </div>
+                  )}
                   <div style={{
-                    fontSize: '1.2rem',
+                    fontSize: credit.isConclusion ? '2.8rem' : (credit.role === '' ? '2rem' : '1.6rem'),
                     fontFamily: "'Courier New', 'Liberation Mono', 'Consolas', 'Monaco', monospace",
                     fontWeight: 'bold',
-                    color: '#666',
-                    marginBottom: '0.5rem',
-                    letterSpacing: '0.1em',
+                    color: credit.isConclusion ? '#2a2a2a' : (credit.role === '' ? '#4ecdc4' : '#2a2a2a'),
+                    letterSpacing: '0.05em',
                     textRendering: 'geometricPrecision',
                     WebkitFontSmoothing: 'none',
-                    MozOsxFontSmoothing: 'unset'
+                    MozOsxFontSmoothing: 'unset',
+                    textShadow: (credit.role === '' || credit.isConclusion) ? '2px 2px 0px rgba(0,0,0,0.3)' : 'none',
+                    lineHeight: credit.isConclusion ? '1.4' : 'normal',
+                    whiteSpace: credit.isConclusion ? 'pre-line' : 'normal'
                   }}>
-                    {credit.role}
+                    {credit.name}
                   </div>
-                )}
-                <div style={{
-                  fontSize: credit.isConclusion ? '2.8rem' : (credit.role === '' ? '2rem' : '1.6rem'),
-                  fontFamily: "'Courier New', 'Liberation Mono', 'Consolas', 'Monaco', monospace",
-                  fontWeight: 'bold',
-                  color: credit.isConclusion ? '#2a2a2a' : (credit.role === '' ? '#4ecdc4' : '#2a2a2a'),
-                  letterSpacing: '0.05em',
-                  textRendering: 'geometricPrecision',
-                  WebkitFontSmoothing: 'none',
-                  MozOsxFontSmoothing: 'unset',
-                  textShadow: (credit.role === '' || credit.isConclusion) ? '2px 2px 0px rgba(0,0,0,0.3)' : 'none',
-                  lineHeight: credit.isConclusion ? '1.4' : 'normal',
-                  whiteSpace: credit.isConclusion ? 'pre-line' : 'normal'
-                }}>
-                  {credit.name}
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
 

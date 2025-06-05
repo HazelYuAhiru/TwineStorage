@@ -3,4 +3,4 @@ Hosting the かさじぞう game, not a Twine game anymore :/
 
 ## TODO List
 - double check script
-- img setup
+- fix ending credit list issue
