@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/TwineStorage/static/css/main.e4460ff2.css",
-    "main.js": "/TwineStorage/static/js/main.d10f44cf.js",
+    "main.js": "/TwineStorage/static/js/main.08d2cd2c.js",
     "index.html": "/TwineStorage/index.html",
     "main.e4460ff2.css.map": "/TwineStorage/static/css/main.e4460ff2.css.map",
-    "main.d10f44cf.js.map": "/TwineStorage/static/js/main.d10f44cf.js.map"
+    "main.08d2cd2c.js.map": "/TwineStorage/static/js/main.08d2cd2c.js.map"
   },
   "entrypoints": [
     "static/css/main.e4460ff2.css",
-    "static/js/main.d10f44cf.js"
+    "static/js/main.08d2cd2c.js"
   ]
 }
