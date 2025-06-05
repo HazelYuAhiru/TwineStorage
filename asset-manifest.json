@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/TwineStorage/static/css/main.e4460ff2.css",
+    "main.js": "/TwineStorage/static/js/main.45ebad6b.js",
+    "index.html": "/TwineStorage/index.html",
+    "main.e4460ff2.css.map": "/TwineStorage/static/css/main.e4460ff2.css.map",
+    "main.45ebad6b.js.map": "/TwineStorage/static/js/main.45ebad6b.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e4460ff2.css",
+    "static/js/main.45ebad6b.js"
+  ]
+}
