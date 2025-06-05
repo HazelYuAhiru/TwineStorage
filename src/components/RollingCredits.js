@@ -2,30 +2,32 @@ import React, { useState, useEffect } from 'react';
 import { markRouteComplete } from '../utils/completionTracker';
 
 export default function RollingCredits({ castInfo = [], onCreditsComplete, conclusionText = "", routeId = null }) {
-  const [showConclusion, setShowConclusion] = useState(false);
   const [startCredits, setStartCredits] = useState(false);
+  const [showConclusion, setShowConclusion] = useState(!!conclusionText);
 
   useEffect(() => {
-    // First show the conclusion text centered
-    const timer1 = setTimeout(() => setShowConclusion(true), 300);
-    return () => clearTimeout(timer1);
-  }, []);
-
-  useEffect(() => {
-    // Then start the credits scrolling
-    if (showConclusion) {
-      const timer = setTimeout(() => setStartCredits(true), 2500);
+    if (conclusionText) {
+      // Show conclusion text for 3 seconds, then start credits
+      const timer = setTimeout(() => {
+        setShowConclusion(false);
+        setTimeout(() => setStartCredits(true), 500);
+      }, 3000);
+      return () => clearTimeout(timer);
+    } else {
+      // No conclusion text, start credits immediately
+      const timer = setTimeout(() => setStartCredits(true), 800);
       return () => clearTimeout(timer);
     }
-  }, [showConclusion]);
+  }, [conclusionText]);
 
   useEffect(() => {
-    // Auto-complete credits after animation duration
     if (startCredits) {
-      const totalItems = (conclusionText ? 1 : 0) + castInfo.length + (castInfo.length === 0 ? 10 : 0);
-      const duration = (totalItems + 5) * 1000;
+      const conclusionItems = conclusionText ? 1 : 0;
+      const castItems = castInfo.length > 0 ? castInfo.length : 1; // At least 1 for "ありがとうございました"
+      const totalItems = conclusionItems + castItems;
+      const duration = credits.length * 3500; // Match the new animation timing
+      
       const timer = setTimeout(() => {
-        // Mark route as complete when credits finish
         if (routeId) {
           markRouteComplete(routeId);
         }
@@ -38,40 +40,20 @@ export default function RollingCredits({ castInfo = [], onCreditsComplete, concl
     }
   }, [startCredits, castInfo.length, onCreditsComplete, conclusionText, routeId]);
 
-  const defaultCast = [
-    { role: "原作", name: "日本の民話" },
-    { role: "脚本・演出", name: "あなたの名前" },
-    { role: "おじいさん", name: "声優名" },
-    { role: "おばあさん", name: "声優名" },
-    { role: "アンバー", name: "声優名" },
-    { role: "ナレーション", name: "声優名" },
-    { role: "音楽", name: "作曲家名" },
-    { role: "グラフィック", name: "アーティスト名" },
-    { role: "プログラム", name: "開発者名" },
-    { role: "", name: "ご清聴ありがとうございました" }
-  ];
-
   const buildCredits = () => {
     const credits = [];
     
-    // Add extra spacing at the very beginning
-    credits.push({ role: "", name: "", isEmpty: true });
     credits.push({ role: "", name: "", isEmpty: true });
     
-    if (conclusionText) {
-      credits.push({ 
-        role: "", 
-        name: conclusionText, 
-        isConclusion: true 
-      });
-    }
+    // Don't add conclusion text to rolling credits - it's shown separately
     
-    if (conclusionText) {
-      credits.push({ role: "", name: "", isEmpty: true });
-    }
-    
-    const castToUse = castInfo.length > 0 ? castInfo : defaultCast;
+    const castToUse = castInfo;
     credits.push(...castToUse);
+    
+    // Add default ending if no cast info provided
+    if (castInfo.length === 0) {
+      credits.push({ role: "", name: "ありがとうございました" });
+    }
     
     return credits;
   };
@@ -92,7 +74,6 @@ export default function RollingCredits({ castInfo = [], onCreditsComplete, concl
       overflow: 'hidden',
       zIndex: 1000
     }}>
-      {/* Decorative pixel elements */}
       <div style={{
         position: 'absolute',
         top: '60px',
@@ -133,8 +114,8 @@ export default function RollingCredits({ castInfo = [], onCreditsComplete, concl
         justifyContent: 'center',
         position: 'relative'
       }}>
-        {/* Perfectly centered conclusion text */}
-        {conclusionText && showConclusion && !startCredits && (
+        {/* Centered conclusion text - shows first */}
+        {conclusionText && showConclusion && (
           <div style={{
             position: 'absolute',
             top: '50%',
@@ -168,29 +149,28 @@ export default function RollingCredits({ castInfo = [], onCreditsComplete, concl
           </div>
         )}
 
-        {/* Scrolling credits container - always present but positioned */}
+        {/* Rolling credits - shows after conclusion text */}
         <div style={{
           position: 'absolute',
           bottom: 0,
           width: '100%',
           height: '100%',
-          display: 'flex',
+          display: showConclusion ? 'none' : 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'flex-end'
         }}>
           <div style={{
-            transform: startCredits ? 'translateY(-150vh)' : 'translateY(150vh)',
-            transition: startCredits ? `transform ${(credits.length + 5) * 2.5}s linear` : 'none',
+            transform: startCredits ? 'translateY(-100vh)' : 'translateY(100vh)',
+            transition: startCredits ? `transform ${credits.length * 4}s linear` : 'none',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            gap: '4rem',
-            paddingBottom: '150vh',
-            paddingTop: '120vh'
+            gap: '6rem',
+            paddingBottom: '50vh',
+            paddingTop: '100vh'
           }}>
             {credits.map((credit, index) => {
-              // Handle empty spacing items
               if (credit.isEmpty) {
                 return <div key={index} style={{ height: '4rem' }} />;
               }
@@ -200,10 +180,10 @@ export default function RollingCredits({ castInfo = [], onCreditsComplete, concl
                   key={index}
                   style={{
                     textAlign: 'center',
-                    marginBottom: credit.role === '' && !credit.isConclusion ? '4rem' : '2rem'
+                    marginBottom: credit.role === '' && !credit.isSpecial ? '4rem' : '2rem'
                   }}
                 >
-                  {credit.role && !credit.isConclusion && (
+                  {credit.role && (
                     <div style={{
                       fontSize: '1.2rem',
                       fontFamily: "'Courier New', 'Liberation Mono', 'Consolas', 'Monaco', monospace",
@@ -219,17 +199,17 @@ export default function RollingCredits({ castInfo = [], onCreditsComplete, concl
                     </div>
                   )}
                   <div style={{
-                    fontSize: credit.isConclusion ? '2.8rem' : (credit.role === '' ? '2rem' : '1.6rem'),
+                    fontSize: (credit.role === '' || credit.isSpecial) ? '2rem' : '1.6rem',
                     fontFamily: "'Courier New', 'Liberation Mono', 'Consolas', 'Monaco', monospace",
                     fontWeight: 'bold',
-                    color: credit.isConclusion ? '#2a2a2a' : (credit.role === '' ? '#4ecdc4' : '#2a2a2a'),
+                    color: (credit.role === '' || credit.isSpecial) ? '#4ecdc4' : '#2a2a2a',
                     letterSpacing: '0.05em',
                     textRendering: 'geometricPrecision',
                     WebkitFontSmoothing: 'none',
                     MozOsxFontSmoothing: 'unset',
-                    textShadow: (credit.role === '' || credit.isConclusion) ? '2px 2px 0px rgba(0,0,0,0.3)' : 'none',
-                    lineHeight: credit.isConclusion ? '1.4' : 'normal',
-                    whiteSpace: credit.isConclusion ? 'pre-line' : 'normal'
+                    textShadow: (credit.role === '' || credit.isSpecial) ? '2px 2px 0px rgba(0,0,0,0.3)' : 'none',
+                    lineHeight: credit.isSpecial ? '1.4' : 'normal',
+                    whiteSpace: credit.isSpecial ? 'pre-line' : 'normal'
                   }}>
                     {credit.name}
                   </div>
